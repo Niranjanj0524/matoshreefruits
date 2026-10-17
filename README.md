@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🍌 Matoshree Fruits — matoshreefruits.com
 
-## Getting Started
+Wholesale banana trading website: fresh arrivals, live stock, photo/video gallery,
+WhatsApp enquiries and a trilingual experience (मराठी / हिन्दी / English).
 
-First, run the development server:
+> "Fresh arrivals. Trusted quality. Direct connection."
+
+## Tech stack
+
+| Component | Technology |
+| --- | --- |
+| Frontend + backend | Next.js 16 (App Router, JavaScript/JSX) |
+| Styling | Tailwind CSS v4 |
+| Database | MongoDB (local dev → Atlas in production) + Mongoose |
+| Media storage | Cloudinary (Phase 3) |
+| Hosting | Vercel (Phase 5) |
+
+## Getting started
 
 ```bash
+npm install
+cp .env.local.example .env.local   # fill in your values
+npm run create-admin               # seed the admin account
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Site: http://localhost:3000 (redirects to /mr)
+- Health check: http://localhost:3000/api/health
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Local MongoDB (current default)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env.local` points at a local MongoDB:
 
-## Learn More
+```
+MONGODB_URI=mongodb://127.0.0.1:27017/matoshreefruits
+```
 
-To learn more about Next.js, take a look at the following resources:
+Start it manually (installed service is currently unstable):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+Start-Process "C:\Program Files\MongoDB\Server\8.2\bin\mongod.exe" `
+  -ArgumentList '--dbpath', "$env:LOCALAPPDATA\mongodb-data", '--port', '27017', '--bind_ip', '127.0.0.1' `
+  -WindowStyle Hidden
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To switch to Atlas later, just replace `MONGODB_URI` with the `mongodb+srv://` string.
 
-## Deploy on Vercel
+## Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npm run create-admin` | Create/update the admin account from `.env.local` |
+| `npm run test:models` | CRUD smoke test for all Mongoose models |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project structure
+
+```
+src/
+  app/[locale]/        Public site — mr (default), hi, en
+  app/api/             API route handlers (health, admin, cron…)
+  app/admin/           Admin dashboard (Phase 3)
+  lib/                 db.js (cached Mongoose), cloudinary.js, i18n.js
+  messages/            mr.json, hi.json, en.json translation dictionaries
+  models/              Admin, Post, Stock, Feedback
+  proxy.js             Locale redirect ("/" → "/mr")
+scripts/
+  create-admin.js      Secure admin bootstrap (bcrypt)
+  test-models.js       Model CRUD smoke test
+```
+
+## Roadmap
+
+- [x] **Phase 1** — Project setup, MongoDB models, admin bootstrap, i18n foundation
+- [ ] **Phase 2** — Public website & UI (homepage, stock, gallery, contact, feedback, language switcher)
+- [ ] **Phase 3** — Admin dashboard & Cloudinary media uploads
+- [ ] **Phase 4** — Automatic media expiry (7-day temporary posts) & business features
+- [ ] **Phase 5** — Testing, Vercel deployment, matoshreefruits.com domain
+
+## Security notes
+
+- `.env.local` is git-ignored — never commit secrets.
+- Admin passwords are stored as bcrypt hashes only.
+- No public pricing anywhere: all enquiries go through WhatsApp buttons.

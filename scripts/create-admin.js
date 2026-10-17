@@ -56,7 +56,7 @@ try {
   const admin = await Admin.findOneAndUpdate(
     { email },
     { $set: { passwordHash, name }, $setOnInsert: { email } },
-    { new: true, upsert: true, runValidators: true }
+    { returnDocument: "after", upsert: true, runValidators: true }
   );
 
   console.log(`✓ Admin ready: ${admin.email} (_id: ${admin._id})`);

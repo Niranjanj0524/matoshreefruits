@@ -4,8 +4,6 @@ import Post from "@/models/Post";
 import Stock from "@/models/Stock";
 import Feedback from "@/models/Feedback";
 
-export const dynamic = "force-dynamic";
-
 /**
  * GET /api/health — Phase 1 smoke test.
  * Reports MongoDB connectivity and document counts per model.
