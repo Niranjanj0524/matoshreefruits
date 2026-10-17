@@ -66,9 +66,16 @@ src/
     stock/ gallery/ contact/ feedback/   Public pages
     loading.js error.js not-found.js     Route states
   app/api/             API route handlers (health, feedback, admin, cron…)
-  app/admin/           Admin dashboard (Phase 3)
+  app/admin/           Admin dashboard — login + guarded panel
+    login/             Sign-in page (public)
+    (panel)/           Session-gated: dashboard, posts, stock, feedback
+    components/        AdminShell, AdminNav, PostEditor, MediaUploader,
+                       StockManager, FeedbackManager, LoginForm, ui helpers
   lib/                 db.js, content.js (cached queries), whatsapp.js,
-                       media.js, site.js, localize.js, cloudinary.js, i18n.js
+                       media.js, site.js, localize.js, cloudinary.js (signing +
+                       destroy), i18n.js, session.js (HMAC admin session),
+                       admin.js (admin validation), admin-data.js (uncached
+                       admin queries)
   messages/            mr.json, hi.json, en.json translation dictionaries
   models/              Admin, Post, Stock, Feedback
   proxy.js             Locale redirect ("/" → last used language, else /mr)
@@ -82,7 +89,7 @@ scripts/
 
 - [x] **Phase 1** — Project setup, MongoDB models, admin bootstrap, i18n foundation
 - [x] **Phase 2** — Public website & UI (homepage, stock, gallery, contact, feedback, language switcher)
-- [ ] **Phase 3** — Admin dashboard & Cloudinary media uploads
+- [x] **Phase 3** — Admin dashboard & Cloudinary media uploads
 - [ ] **Phase 4** — Automatic media expiry (7-day temporary posts) & business features
 - [ ] **Phase 5** — Testing, Vercel deployment, matoshreefruits.com domain
 
@@ -97,8 +104,25 @@ lots; buyers enquire on WhatsApp.
 pages only show quantity, quality, location and availability, and every page
 carries a "rates on request" note plus WhatsApp enquiry buttons.
 
+## Admin (Phase 3)
+
+- URL: `/admin/login` (unlisted — the public site never links to it).
+- Every `/api/admin/*` route verifies an HMAC-signed `mf_session` cookie
+  (`SESSION_SECRET`) and rejects cross-origin writes (Origin check).
+- Login is bcrypt-checked with an 8-attempts/10-minutes per-IP rate limit and a
+  generic error message.
+- Uploads are signed server-side and go **browser → Cloudinary directly**, so
+  the API secret never reaches the client and large videos bypass serverless
+  body limits. Removing media confirms first, then destroys the cloud asset.
+- Temporary posts stamp `expiresAt = published + 7d` when they go live;
+  re-editing a live post never extends the window (Phase 4 will auto-delete
+  expired media).
+
 ## Security notes
 
 - `.env.local` is git-ignored — never commit secrets.
 - Admin passwords are stored as bcrypt hashes only.
 - No public pricing anywhere: all enquiries go through WhatsApp buttons.
+- Admin session cookies are httpOnly + sameSite=lax (+ secure in production);
+  session reads are server-side, and admin APIs re-check auth independently of
+  the UI.
