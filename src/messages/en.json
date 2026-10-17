@@ -2,22 +2,176 @@
   "meta": {
     "siteName": "Matoshree Fruits",
     "tagline": "Fresh arrivals. Trusted quality. Direct connection.",
-    "description": "Matoshree Fruits — wholesale banana stock, availability and photo/video updates."
+    "description": "Matoshree Fruits — farmer-direct wholesale banana stock, availability and photo/video updates."
   },
   "nav": {
     "home": "Home",
     "stock": "Stock",
     "gallery": "Gallery",
     "feedback": "Feedback",
-    "contact": "Contact"
-  },
-  "welcome": {
-    "heading": "Welcome to Matoshree Fruits",
-    "phase": "Phase 1 complete — project structure and database connection succeeded."
+    "contact": "Contact",
+    "menu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language"
   },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong. Please try again.",
-    "whatsappEnquiry": "Enquire on WhatsApp"
+    "errorHeading": "We could not load this page",
+    "errorText": "The database or content service did not respond. Please try again in a moment.",
+    "retry": "Try again",
+    "empty": "Nothing here yet — please check back soon.",
+    "viewAll": "View all",
+    "available": "Available",
+    "unavailable": "Sold out",
+    "updated": "Updated",
+    "close": "Close",
+    "whatsappEnquiry": "Enquire on WhatsApp",
+    "pageNotFound": "Page not found",
+    "backHome": "Go home",
+    "noPricing": "Rates are shared on request — no public pricing.",
+    "skipToContent": "Skip to content",
+    "skeleton": "Loading content…"
+  },
+  "hero": {
+    "eyebrow": "Farmer-direct wholesale banana trading",
+    "heading": "Banana lots bought directly from farmers — supplied straight to big traders.",
+    "sub": "We purchase at the mandi straight from farmers and forward in bulk: live stock, honest quality grades and same-day WhatsApp replies for traders who move volume.",
+    "primaryCta": "See live stock",
+    "secondaryCta": "Contact us",
+    "chips": ["Daily fresh arrivals", "Quality graded & sorted", "Pan-India dispatch"]
+  },
+  "home": {
+    "freshArrivals": {
+      "title": "Fresh from Matoshree",
+      "sub": "New photos, videos and market updates as they land.",
+      "empty": "No new updates right now — check back soon.",
+      "cta": "See the full gallery"
+    },
+    "stockPreview": {
+      "title": "Stock available now",
+      "sub": "Quantity, quality and location — straight from the mandi.",
+      "empty": "No stock listed right now. Ask us on WhatsApp.",
+      "cta": "See all stock"
+    },
+    "whyUs": {
+      "title": "Why traders and buyers choose us",
+      "items": [
+        {
+          "title": "Fresh every day",
+          "text": "Lots are bought directly from farmers and listed daily with quantity, quality and location."
+        },
+        {
+          "title": "Honest quality grades",
+          "text": "From premium to grade-B — the grade is stated before you buy."
+        },
+        {
+          "title": "Direct connection",
+          "text": "One tap to WhatsApp for a real quote. No call-back waiting."
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "What customers say",
+      "sub": "Approved feedback from buyers and traders.",
+      "empty": "No feedback to show yet."
+    },
+    "cta": {
+      "heading": "Need a quote?",
+      "text": "Ask for quantity, quality and rates directly on WhatsApp.",
+      "button": "Enquire on WhatsApp"
+    }
+  },
+  "stock": {
+    "heading": "Available stock",
+    "sub": "Current banana lots with quantity, quality and location.",
+    "filterAll": "All",
+    "filterAvailable": "Available only",
+    "empty": "No stock listed right now.",
+    "results": "lots shown",
+    "fields": {
+      "quantity": "Quantity",
+      "quality": "Quality",
+      "location": "Location",
+      "updated": "Updated"
+    },
+    "units": {
+      "crate": "crate",
+      "box": "box",
+      "kg": "kg",
+      "quintal": "quintal",
+      "truck": "truck",
+      "bunch": "bunch"
+    },
+    "qualities": {
+      "premium": "Premium",
+      "grade-a": "Grade A",
+      "grade-b": "Grade B",
+      "ripening": "Ripening",
+      "mixed": "Mixed"
+    },
+    "requestRate": "Rates on request — no public pricing."
+  },
+  "gallery": {
+    "heading": "Photo & video gallery",
+    "sub": "Real photos of fresh arrivals, the mandi and packing.",
+    "empty": "No media in the gallery yet.",
+    "all": "All",
+    "photos": "Photos",
+    "videos": "Videos",
+    "temporary": "Temporary",
+    "permanent": "Permanent",
+    "expiresOn": "Expires",
+    "enquiry": "Enquire",
+    "noMedia": "This update has no media."
+  },
+  "contact": {
+    "heading": "Contact us",
+    "sub": "Phone, address and business details.",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "address": "Address",
+    "hours": "Business hours",
+    "email": "Email",
+    "business": "Business",
+    "note": "Pricing is never public — ask for rates on WhatsApp.",
+    "unavailable": "Coming soon"
+  },
+  "feedback": {
+    "heading": "Feedback",
+    "sub": "Tell us about your experience with Matoshree Fruits.",
+    "form": {
+      "name": "Your name",
+      "namePlaceholder": "Full name",
+      "contact": "Phone or email",
+      "contactPlaceholder": "How we can reach you (optional)",
+      "message": "Your feedback",
+      "messagePlaceholder": "Write your feedback here…",
+      "rating": "Rating",
+      "ratingHint": "1 to 5",
+      "ratingLabels": ["Poor", "Fair", "Good", "Very good", "Excellent"],
+      "submit": "Send feedback",
+      "submitting": "Sending…",
+      "success": "Thank you! Your feedback has been received.",
+      "successNote": "It will appear publicly once approved.",
+      "error": "Could not send your feedback. Please try again.",
+      "tooMany": "Too many attempts — please wait a few minutes and try again.",
+      "required": "Please fill in the required fields."
+    },
+    "testimonials": {
+      "heading": "What customers say",
+      "empty": "No approved feedback yet."
+    }
+  },
+  "footer": {
+    "quickLinks": "Quick links",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "note": "No public pricing — every enquiry goes through WhatsApp.",
+    "languages": "Language"
+  },
+  "whatsapp": {
+    "greeting": "Hello Matoshree Fruits! I would like to know about your stock.",
+    "stockEnquiry": "I would like details of the stock currently available."
   }
 }

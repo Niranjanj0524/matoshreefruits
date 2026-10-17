@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "create-admin": "node scripts/create-admin.js",
-    "test:models": "node scripts/test-models.js"
+    "test:models": "node scripts/test-models.js",
+    "seed": "node scripts/seed-sample.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

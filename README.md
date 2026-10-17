@@ -54,30 +54,48 @@ To switch to Atlas later, just replace `MONGODB_URI` with the `mongodb+srv://` s
 | `npm run lint` | ESLint |
 | `npm run create-admin` | Create/update the admin account from `.env.local` |
 | `npm run test:models` | CRUD smoke test for all Mongoose models |
+| `npm run seed` | Insert sample stock + announcement posts (Phase 2 content) |
 
 ## Project structure
 
 ```
 src/
   app/[locale]/        Public site — mr (default), hi, en
-  app/api/             API route handlers (health, admin, cron…)
+    components/        Header, Footer, LanguageSwitcher, StockCard, PostCard,
+                       GalleryClient, FeedbackForm, WhatsAppButton, Icons…
+    stock/ gallery/ contact/ feedback/   Public pages
+    loading.js error.js not-found.js     Route states
+  app/api/             API route handlers (health, feedback, admin, cron…)
   app/admin/           Admin dashboard (Phase 3)
-  lib/                 db.js (cached Mongoose), cloudinary.js, i18n.js
+  lib/                 db.js, content.js (cached queries), whatsapp.js,
+                       media.js, site.js, localize.js, cloudinary.js, i18n.js
   messages/            mr.json, hi.json, en.json translation dictionaries
   models/              Admin, Post, Stock, Feedback
-  proxy.js             Locale redirect ("/" → "/mr")
+  proxy.js             Locale redirect ("/" → last used language, else /mr)
 scripts/
   create-admin.js      Secure admin bootstrap (bcrypt)
   test-models.js       Model CRUD smoke test
+  seed-sample.js       Sample stock + announcements (npm run seed)
 ```
 
 ## Roadmap
 
 - [x] **Phase 1** — Project setup, MongoDB models, admin bootstrap, i18n foundation
-- [ ] **Phase 2** — Public website & UI (homepage, stock, gallery, contact, feedback, language switcher)
+- [x] **Phase 2** — Public website & UI (homepage, stock, gallery, contact, feedback, language switcher)
 - [ ] **Phase 3** — Admin dashboard & Cloudinary media uploads
 - [ ] **Phase 4** — Automatic media expiry (7-day temporary posts) & business features
 - [ ] **Phase 5** — Testing, Vercel deployment, matoshreefruits.com domain
+
+## About the business
+
+One website, one admin. Matoshree Fruits is a small *vyapari*: it buys banana
+lots **directly from farmers** at the mandi and supplies them onward in bulk to
+bigger traders and wholesalers (B2B). The admin publishes photos/videos of the
+lots; buyers enquire on WhatsApp.
+
+**No price is ever displayed publicly** — the `Stock` model has no price field,
+pages only show quantity, quality, location and availability, and every page
+carries a "rates on request" note plus WhatsApp enquiry buttons.
 
 ## Security notes
 
