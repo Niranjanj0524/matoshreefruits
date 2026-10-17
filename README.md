@@ -90,7 +90,7 @@ scripts/
 - [x] **Phase 1** — Project setup, MongoDB models, admin bootstrap, i18n foundation
 - [x] **Phase 2** — Public website & UI (homepage, stock, gallery, contact, feedback, language switcher)
 - [x] **Phase 3** — Admin dashboard & Cloudinary media uploads
-- [ ] **Phase 4** — Automatic media expiry (7-day temporary posts) & business features
+- [x] **Phase 4** — Automatic media expiry (7-day temporary posts) & business features
 - [ ] **Phase 5** — Testing, Vercel deployment, matoshreefruits.com domain
 
 ## About the business
@@ -115,8 +115,19 @@ carries a "rates on request" note plus WhatsApp enquiry buttons.
   the API secret never reaches the client and large videos bypass serverless
   body limits. Removing media confirms first, then destroys the cloud asset.
 - Temporary posts stamp `expiresAt = published + 7d` when they go live;
-  re-editing a live post never extends the window (Phase 4 will auto-delete
-  expired media).
+  re-editing a live post never extends the window.
+
+## Expiry cron (Phase 4)
+
+- `GET/POST /api/cron/expire-posts` deletes temporary posts whose window has
+  closed: it destroys the Cloudinary assets first, then removes the post
+  documents, and revalidates the public pages. Runs are idempotent.
+- Auth: `Authorization: Bearer $CRON_SECRET` (401 without it, 503 if the
+  secret is not configured). `vercel.json` schedules it hourly.
+- Public pages also hide expired posts immediately via the live-post filter,
+  so the site stays correct even between cron runs.
+- `/sitemap.xml` (per-locale hreflang alternates) and `/robots.txt`
+  (disallows `/admin` and `/api`) ship with the site.
 
 ## Security notes
 
