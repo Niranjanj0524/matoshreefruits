@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "siteName": "Matoshree Fruits",
+    "tagline": "Fresh arrivals. Trusted quality. Direct connection.",
+    "description": "Matoshree Fruits — wholesale banana stock, availability and photo/video updates."
+  },
+  "nav": {
+    "home": "Home",
+    "stock": "Stock",
+    "gallery": "Gallery",
+    "feedback": "Feedback",
+    "contact": "Contact"
+  },
+  "welcome": {
+    "heading": "Welcome to Matoshree Fruits",
+    "phase": "Phase 1 complete — project structure and database connection succeeded."
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Please try again.",
+    "whatsappEnquiry": "Enquire on WhatsApp"
+  }
+}
