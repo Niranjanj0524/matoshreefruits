@@ -128,7 +128,7 @@ carries a "rates on request" note plus WhatsApp enquiry buttons.
   closed: it destroys the Cloudinary assets first, then removes the post
   documents, and revalidates the public pages. Runs are idempotent.
 - Auth: `Authorization: Bearer $CRON_SECRET` (401 without it, 503 if the
-  secret is not configured). `vercel.json` schedules it hourly.
+  secret is not configured). `vercel.json` schedules it daily (Vercel Hobby allows one cron run per day).
 - Public pages also hide expired posts immediately via the live-post filter,
   so the site stays correct even between cron runs.
 - `/sitemap.xml` (per-locale hreflang alternates) and `/robots.txt`
@@ -175,7 +175,8 @@ Actual deployment needs the owner's accounts; the repo is prepared for it:
    `ADMIN_NAME`, `SESSION_SECRET`, `NEXT_PUBLIC_WHATSAPP_NUMBER`,
    `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`,
    `CRON_SECRET` (all documented in `.env.local.example`).
-3. **Cron** — `vercel.json` already schedules `expire-posts` hourly; no extra
+3. **Cron** — `vercel.json` already schedules `expire-posts` daily (Vercel Hobby
+   allows one cron run per day); no extra
    setup. Set `CRON_SECRET` to a long random hex and keep it only in Vercel.
 4. **MongoDB Atlas** — free M0 cluster → database user → allow access from
    Vercel (or 0.0.0.0/0) → paste the connection string into `MONGODB_URI` →

@@ -10,7 +10,9 @@ import { expireOverduePosts } from "@/lib/expiry";
  * the live-post filter; this reclaims the media storage.
  *
  * Auth: `Authorization: Bearer $CRON_SECRET` (same secret Vercel Cron sends).
- * Trigger it hourly from any scheduler (vercel.json ships a cron config).
+ * Trigger it daily from any scheduler (vercel.json ships a cron config;
+ * Vercel Hobby allows one run per day). Public pages already hide expired
+ * posts at read time — this only reclaims Cloudinary storage.
  */
 
 function json(data, status = 200) {
