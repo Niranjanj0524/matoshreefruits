@@ -10,7 +10,9 @@
     "lint": "eslint",
     "create-admin": "node scripts/create-admin.js",
     "test:models": "node scripts/test-models.js",
-    "seed": "node scripts/seed-sample.js"
+    "seed": "node scripts/seed-sample.js",
+    "verify:site": "node scripts/verify-site.mjs",
+    "verify:expiry": "node scripts/verify-expiry.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

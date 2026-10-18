@@ -31,15 +31,31 @@ function clientIp(request) {
   return forwarded.split(",")[0].trim() || "local";
 }
 
+/** True when this IP has burned through its failed-attempt budget. */
 function isRateLimited(ip) {
   const now = Date.now();
   const entry = attempts.get(ip);
   if (!entry || entry.resetAt < now) {
-    attempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    attempts.set(ip, { count: 0, resetAt: now + WINDOW_MS });
     return false;
   }
-  entry.count += 1;
-  return entry.count > MAX_ATTEMPTS;
+  return entry.count >= MAX_ATTEMPTS;
+}
+
+/** Record one *failed* attempt; successful logins call `clearAttempts`. */
+function recordFailure(ip) {
+  const now = Date.now();
+  const entry = attempts.get(ip);
+  if (!entry || entry.resetAt < now) {
+    attempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+  } else {
+    entry.count += 1;
+  }
+}
+
+/** A successful login forgives the IP's earlier failures. */
+function clearAttempts(ip) {
+  attempts.delete(ip);
 }
 
 function json(data, status = 200) {
@@ -62,7 +78,11 @@ export async function POST(request) {
 
   const ip = clientIp(request);
   if (isRateLimited(ip)) {
-    return json({ ok: false, code: "rate_limited" }, 429);
+    const entry = attempts.get(ip);
+    const retryAfter = Math.max(1, Math.ceil((entry.resetAt - Date.now()) / 1000));
+    const response = json({ ok: false, code: "rate_limited" }, 429);
+    response.headers.set("Retry-After", String(retryAfter));
+    return response;
   }
 
   try {
@@ -71,8 +91,10 @@ export async function POST(request) {
     const hash = admin?.passwordHash || DUMMY_HASH;
     const valid = await bcrypt.compare(password, hash);
     if (!admin || !valid) {
+      recordFailure(ip);
       return json({ ok: false, code: "invalid" }, 401);
     }
+    clearAttempts(ip);
 
     await Admin.updateOne(
       { _id: admin._id },
