@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import WhatsAppButton from "./WhatsAppButton";
-import { MenuIcon, CloseIcon } from "./Icons";
+import { MenuIcon, CloseIcon, InstagramIcon } from "./Icons";
 
 /**
  * Site header: brand, primary nav, language switcher and the WhatsApp CTA.
@@ -13,7 +13,7 @@ import { MenuIcon, CloseIcon } from "./Icons";
  *
  * @param {Array<{href: string, label: string}>} nav
  */
-export default function Header({ locale, brand, nav, labels, whatsappHref }) {
+export default function Header({ locale, brand, nav, labels, whatsappHref, instagramHref }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -73,6 +73,17 @@ export default function Header({ locale, brand, nav, labels, whatsappHref }) {
             label={labels.whatsappShort}
             className="hidden lg:inline-flex"
           />
+          {instagramHref && (
+            <a
+              href={instagramHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="hidden h-10 w-10 place-items-center rounded-xl border border-line bg-background text-brand-dark transition hover:bg-brand-soft hover:text-brand lg:grid"
+            >
+              <InstagramIcon className="h-5 w-5" />
+            </a>
+          )}
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}

@@ -120,7 +120,13 @@ export default function Footer({ locale, nav, t }) {
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row sm:px-6">
           <p className="text-xs text-muted">
-            © {year} {BUSINESS_NAME}. {t.footer.rights}
+            © {year} {BUSINESS_NAME}. {t.footer.rights}{" "}
+            <Link
+              href="/admin/login"
+              className="text-[11px] text-muted/50 transition hover:text-muted"
+            >
+              Admin
+            </Link>
           </p>
           <div className="flex items-center gap-3">
             <span className="text-xs text-muted">{t.footer.languages}</span>
