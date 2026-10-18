@@ -135,8 +135,8 @@ carries a "rates on request" note plus WhatsApp enquiry buttons.
 - URL: `/admin/login` (unlisted — the public site never links to it).
 - Every `/api/admin/*` route verifies an HMAC-signed `mf_session` cookie
   (`SESSION_SECRET`) and rejects cross-origin writes (Origin check).
-- Login is bcrypt-checked with an 8-attempts/10-minutes per-IP rate limit and a
-  generic error message.
+- Login is bcrypt-checked with an 8-*failed*-attempts/10-minutes per-IP rate
+  limit (a successful login clears the counter) and a generic error message.
 - Uploads are signed server-side and go **browser → Cloudinary directly**, so
   the API secret never reaches the client and large videos bypass serverless
   body limits. Removing media confirms first, then destroys the cloud asset.
