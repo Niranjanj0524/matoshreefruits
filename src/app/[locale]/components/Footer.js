@@ -117,7 +117,7 @@ export default function Footer({ locale, nav, t }) {
         </div>
       </div>
 
-      <div className="border-t border-line">
+      <div className="border-t border-line pb-[env(safe-area-inset-bottom)]">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row sm:px-6">
           <p className="text-xs text-muted">
             © {year} {BUSINESS_NAME}. {t.footer.rights}{" "}

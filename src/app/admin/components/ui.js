@@ -7,7 +7,7 @@ export const label =
   "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-muted";
 
 export const input =
-  "w-full rounded-lg border border-line bg-white px-3 py-2 text-sm text-foreground placeholder:text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-background";
+  "w-full rounded-lg border border-line bg-white px-3 py-2 text-base text-foreground placeholder:text-muted focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-background";
 
 export const textarea = `${input} min-h-24 resize-y`;
 

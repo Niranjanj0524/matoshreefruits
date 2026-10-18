@@ -25,6 +25,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
+/** Mobile browser chrome: brand green + let content use the full notch area. */
+export const viewport = {
+  themeColor: "#2f6b30",
+  viewportFit: "cover",
+};
+
 /** Root layout for the public site: header, nav, language switcher, footer. */
 export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;

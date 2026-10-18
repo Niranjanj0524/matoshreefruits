@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PlayIcon, CloseIcon, CameraIcon } from "./Icons";
 import { formatDate } from "@/lib/localize";
 
@@ -42,6 +42,18 @@ export default function GalleryClient({ items, locale, t }) {
       document.body.style.overflow = "";
     };
   }, [index, close, step]);
+
+  // Swipe navigation for touch (mobile) — swipe left/right to step.
+  const touchX = useRef(null);
+  const onTouchStart = (e) => {
+    touchX.current = e.changedTouches[0].clientX;
+  };
+  const onTouchEnd = (e) => {
+    if (touchX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+    touchX.current = null;
+  };
 
   const photoCount = items.filter((i) => i.kind === "image").length;
   const videoCount = items.filter((i) => i.kind === "video").length;
@@ -155,6 +167,8 @@ export default function GalleryClient({ items, locale, t }) {
           <div
             className="flex max-h-[78vh] w-full max-w-5xl flex-col items-center"
             onClick={(e) => e.stopPropagation()}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
             {active.kind === "video" ? (
               <video

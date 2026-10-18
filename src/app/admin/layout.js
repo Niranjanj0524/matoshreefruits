@@ -8,6 +8,11 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
+export const viewport = {
+  themeColor: "#2f6b30",
+  viewportFit: "cover",
+};
+
 /**
  * Root layout for the admin area (separate tree from /[locale], which has its
  * own root layout — the multi-root-layout pattern, since there is no

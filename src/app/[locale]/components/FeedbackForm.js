@@ -63,7 +63,7 @@ export default function FeedbackForm({ locale, t }) {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-line bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted/70 transition focus:border-brand focus:bg-surface focus:outline-none focus:ring-2 focus:ring-brand/20";
+    "w-full rounded-xl border border-line bg-background px-4 py-3 text-base text-foreground placeholder:text-muted/70 transition focus:border-brand focus:bg-surface focus:outline-none focus:ring-2 focus:ring-brand/20";
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4">
