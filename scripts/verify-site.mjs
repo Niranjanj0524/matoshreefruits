@@ -79,6 +79,23 @@ async function pollText(pathname, needle, attempts = 10) {
   return false;
 }
 
+/**
+ * Poll until `needle` is ABSENT. A mutation's revalidateTag can lose a race
+ * with an in-flight ISR regeneration (spawned by an earlier read), which
+ * re-caches pre-mutation HTML as fresh. Polling for absence lets that stale
+ * entry age out and the page regenerate, so a "deleted/unpublished is hidden"
+ * assertion reflects the true state rather than a transient cache race. If the
+ * item never disappears the poll times out and the check fails (no masking).
+ */
+async function pollTextGone(pathname, needle, attempts = 10) {
+  for (let i = 0; i < attempts; i++) {
+    const r = await text(pathname);
+    if (!r.body.includes(needle)) return true;
+    if (i < attempts - 1) await new Promise((res) => setTimeout(res, 1000));
+  }
+  return false;
+}
+
 async function main() {
   // ── 1. Public routes still work ────────────────────────────────────────
   const home = await text("/mr");
@@ -237,9 +254,8 @@ async function main() {
     });
     check("unpublish via PATCH", unpub.status === 200 && unpub.data?.post?.status === "unpublished",
       `status=${unpub.status}`);
-    const gal2 = await text("/mr/gallery");
-    check("unpublished sentinel hidden from gallery",
-      !gal2.body.includes("Phase3 sentinel"), "");
+    const gal2gone = await pollTextGone("/mr/gallery", "Phase3 sentinel", 10);
+    check("unpublished sentinel hidden from gallery", gal2gone, "");
 
     // 8f. Republish → visible again
     const repub = await req(`/api/admin/posts/${postId}`, {
@@ -268,8 +284,8 @@ async function main() {
       const gone = await fetch(uploaded.secure_url, { method: "HEAD" });
       check("cloudinary asset URL now gone", gone.status !== 200, `status=${gone.status}`);
     }
-    const gal4 = await text("/mr/gallery");
-    check("deleted sentinel gone from gallery", !gal4.body.includes("Phase3 sentinel"), "");
+    const gal4gone = await pollTextGone("/mr/gallery", "Phase3 sentinel", 10);
+    check("deleted sentinel gone from gallery", gal4gone, "");
   }
 
   // ── 9. Stock CRUD round-trip ───────────────────────────────────────────
@@ -302,9 +318,8 @@ async function main() {
 
     const delStock = await req(`/api/admin/stock/${stockId}`, { method: "DELETE" });
     check("delete stock lot", delStock.status === 200, `status=${delStock.status}`);
-    const pubStock2 = await text("/mr/stock");
-    check("deleted lot gone from public stock page",
-      !pubStock2.body.includes("Phase3 Sentinel Variety"), "");
+    const stockGone = await pollTextGone("/mr/stock", "Phase3 Sentinel Variety", 10);
+    check("deleted lot gone from public stock page", stockGone, "");
 
     // Validation: reject a stock payload with a bogus field/type
     const invalid = await req("/api/admin/stock", {
@@ -370,9 +385,8 @@ async function main() {
       body: { id: fbItem._id },
     });
     check("delete feedback", delFb.status === 200, `status=${delFb.status}`);
-    const wall3 = await text("/mr/feedback");
-    check("deleted feedback gone from public wall",
-      !wall3.body.includes(FB_MSG), "");
+    const wall3gone = await pollTextGone("/mr/feedback", FB_MSG, 10);
+    check("deleted feedback gone from public wall", wall3gone, "");
   }
 
   // ── 11. No price anywhere (public pages) ───────────────────────────────
