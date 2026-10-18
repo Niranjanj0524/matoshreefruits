@@ -55,27 +55,6 @@ To switch to Atlas later, just replace `MONGODB_URI` with the `mongodb+srv://` s
 | `npm run create-admin` | Create/update the admin account from `.env.local` |
 | `npm run test:models` | CRUD smoke test for all Mongoose models |
 | `npm run seed` | Insert sample stock + announcement posts (Phase 2 content) |
-| `npm run verify:site` | Full site verification (61 checks): auth, CSRF, CRUD, uploads, feedback, no-price |
-| `npm run verify:expiry` | Expiry-cron verification (27 checks): sitemap/robots, cron auth, real expiry round-trip |
-
-### Verification (Phase 5)
-
-Both verify scripts drive a **running server** (default `http://127.0.0.1:3005`,
-pass another base URL as the first argument) against the credentials in
-`.env.local`, and clean up after themselves:
-
-```powershell
-npx next start -p 3005     # production build; or: npm run dev
-npm run verify:site        # 61 checks — auth, admin APIs, CSRF, Cloudinary,
-                           #   post/stock/feedback CRUD, no-price wall, rate limit
-npm run verify:expiry      # 27 checks — sitemap/robots, cron auth, backdate +
-                           #   cron destroys the real Cloudinary asset, idempotency
-```
-
-They may be run back-to-back: the site suite deliberately trips the login
-rate limit at the end, and the expiry suite logs in from its own sentinel IP
-so it isn't blocked by it. `verify:expiry` also connects to MongoDB directly
-to backdate `expiresAt`, so run it from the project root.
 | `npm run verify:site` | 61-check end-to-end suite against a running server (Phase 5) |
 | `npm run verify:expiry` | 27-check expiry-cron suite (Phase 5) |
 
@@ -174,8 +153,11 @@ npm run verify:expiry           # 27 checks: cron auth (401/503), real upload
 
 Notes:
 
-- The login rate limiter (8 attempts / 10 min / IP, in-memory) is shared by
-  both suites — **restart the server between suites** (or wait 10 min).
+- The login rate limiter (8 *failed* attempts / 10 min / IP, in-memory) is
+  shared by both suites, so `verify:site` deliberately exhausts it at the end
+  of its run. The suites can still run back-to-back: a successful login
+  clears the counter, and `verify:expiry` presents its own per-run sentinel
+  `X-Forwarded-For` IP so it isn't blocked by the earlier lockout.
 - The suites read `.env.local` for admin credentials and `CRON_SECRET`, and
   need MongoDB running. `verify:expiry` also needs valid Cloudinary keys.
 - Test feedback is approved → wall-published → deleted inside the suite; the
