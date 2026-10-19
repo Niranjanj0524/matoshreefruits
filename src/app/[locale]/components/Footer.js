@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CONTACT, BUSINESS_NAME } from "@/lib/site";
 import LanguageSwitcher from "./LanguageSwitcher";
 import WhatsAppButton from "./WhatsAppButton";
@@ -38,9 +39,15 @@ export default function Footer({ locale, nav, t }) {
           <div className="flex items-center gap-2.5">
             <span
               aria-hidden="true"
-              className="grid h-9 w-9 place-items-center rounded-xl bg-brand text-lg text-white"
+              className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm"
             >
-              🍌
+              <Image
+                src="/logo.png"
+                alt=""
+                width={36}
+                height={36}
+                className="h-full w-full object-cover"
+              />
             </span>
             <span className="text-base font-bold text-brand-dark">{BUSINESS_NAME}</span>
           </div>

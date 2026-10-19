@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -32,9 +33,16 @@ export default function Header({ locale, brand, nav, labels, whatsappHref, insta
         >
           <span
             aria-hidden="true"
-            className="grid h-9 w-9 place-items-center rounded-xl bg-brand text-lg text-white shadow-sm"
+            className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm"
           >
-            🍌
+            <Image
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              className="h-full w-full object-cover"
+              priority
+            />
           </span>
           <span className="flex flex-col leading-tight">
             <span className="text-[15px] font-bold tracking-tight text-brand-dark sm:text-base">
@@ -126,12 +134,25 @@ export default function Header({ locale, brand, nav, labels, whatsappHref, insta
               );
             })}
           </nav>
-          <WhatsAppButton
-            href={whatsappHref}
-            label={labels.whatsapp}
-            size="lg"
-            className="mt-4 w-full"
-          />
+          <div className="mt-4 flex items-center gap-2">
+            <WhatsAppButton
+              href={whatsappHref}
+              label={labels.whatsapp}
+              size="lg"
+              className="w-full"
+            />
+            {instagramHref && (
+              <a
+                href={instagramHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="grid h-12 w-12 shrink-0 place-items-center rounded-xl border border-line bg-background text-brand-dark transition hover:bg-brand-soft hover:text-brand"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+            )}
+          </div>
         </div>
       )}
     </header>
