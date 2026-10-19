@@ -5,7 +5,7 @@ import { LOCALES, DEFAULT_LOCALE } from "@/lib/i18n";
  * Proxy (formerly middleware) — Next.js 16 convention.
  *
  * 1. "/" → visitors go to their remembered language (NEXT_LOCALE cookie) or
- *    the default locale (Marathi).
+ *    the default locale (Hindi).
  * 2. /admin/* (except the login page) requires a valid mf_session cookie.
  *    The HMAC check runs HERE — before any rendering — because a guard inside
  *    a layout can still let Next serialize the page segment (with live DB

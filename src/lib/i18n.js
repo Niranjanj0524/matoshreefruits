@@ -1,14 +1,14 @@
 /**
  * i18n configuration for Matoshree Fruits.
- * Simple locale routing: /mr (default), /hi, /en — messages live in
+ * Simple locale routing: /hi (default), /mr, /en — messages live in
  * src/messages/<locale>.json and are passed to pages from the [locale] layout.
  */
 import mr from "@/messages/mr.json";
 import hi from "@/messages/hi.json";
 import en from "@/messages/en.json";
 
-export const LOCALES = ["mr", "hi", "en"];
-export const DEFAULT_LOCALE = "mr";
+export const LOCALES = ["hi", "mr", "en"];
+export const DEFAULT_LOCALE = "hi";
 
 export const LOCALE_NAMES = {
   mr: "मराठी",

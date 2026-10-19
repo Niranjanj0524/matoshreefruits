@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { LOCALES, getMessages, isValidLocale } from "@/lib/i18n";
+import { LOCALES, DEFAULT_LOCALE, getMessages, isValidLocale } from "@/lib/i18n";
 import { INSTAGRAM_URL } from "@/lib/site";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import Header from "./components/Header";
@@ -12,7 +12,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const t = getMessages(isValidLocale(locale) ? locale : "mr");
+  const t = getMessages(isValidLocale(locale) ? locale : DEFAULT_LOCALE);
   return {
     title: {
       default: t.meta.siteName,
