@@ -33,13 +33,13 @@ export default function Header({ locale, brand, nav, labels, whatsappHref, insta
         >
           <span
             aria-hidden="true"
-            className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm"
+            className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-white shadow-sm ring-1 ring-brand/10"
           >
             <Image
               src="/logo.png"
               alt=""
-              width={36}
-              height={36}
+              width={44}
+              height={44}
               className="h-full w-full object-cover"
               priority
             />
