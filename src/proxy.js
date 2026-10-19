@@ -73,7 +73,11 @@ export async function proxy(request) {
   }
 
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-    if (pathname !== "/admin/login") {
+    // Public admin routes that must be reachable WITHOUT a session:
+    //  - /admin/login : sign in
+    //  - /admin/setup : one-time bootstrap of the first admin (self-disables)
+    const PUBLIC_ADMIN_ROUTES = ["/admin/login", "/admin/setup"];
+    if (!PUBLIC_ADMIN_ROUTES.includes(pathname)) {
       const token = request.cookies.get(SESSION_COOKIE)?.value;
       if (!(await isValidSession(token))) {
         return NextResponse.redirect(new URL("/admin/login", request.url));

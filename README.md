@@ -112,6 +112,11 @@ carries a "rates on request" note plus WhatsApp enquiry buttons.
 ## Admin (Phase 3)
 
 - URL: `/admin/login` (unlisted — the public site never links to it).
+- **First-run setup:** if the database has no admin yet, visit `/admin/setup`
+  to create the first account from the browser (handy against a fresh Atlas —
+  no shell access needed). It only works while no admin exists, then locks
+  itself and reports "already set up". Optionally set `ADMIN_SETUP_SECRET` to
+  also require a setup key.
 - Every `/api/admin/*` route verifies an HMAC-signed `mf_session` cookie
   (`SESSION_SECRET`) and rejects cross-origin writes (Origin check).
 - Login is bcrypt-checked with an 8-*failed*-attempts/10-minutes per-IP rate
@@ -180,7 +185,8 @@ Actual deployment needs the owner's accounts; the repo is prepared for it:
    setup. Set `CRON_SECRET` to a long random hex and keep it only in Vercel.
 4. **MongoDB Atlas** — free M0 cluster → database user → allow access from
    Vercel (or 0.0.0.0/0) → paste the connection string into `MONGODB_URI` →
-   run `npm run create-admin` once with the production env values.
+   create the first admin by either running `npm run create-admin` once with the
+   production env values, **or** visiting `/admin/setup` on the deployed site.
 5. **Domain (matoshreefruits.com)** — buy it (any registrar), then in Vercel
    → Project → Settings → Domains add it; point the registrar's DNS at
    Vercel (A record `@` → `76.76.21.21`, CNAME `www` →
